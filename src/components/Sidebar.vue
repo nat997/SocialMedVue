@@ -13,9 +13,9 @@
       </div>
 			<nav class="menu">
 				<a href="/" class="menu-item is-active">Home</a>
-				<a href="/Login" class="menu-item">Login</a>
-			  <a href="/Sign-Up" class="menu-item">Sign-Up</a>
-				<a href="#" @click="logout" class="menu-item">Logout</a>
+				<a href="/Login" class="menu-item" v-if="!name">Login</a>
+			  <a href="/Sign-Up" class="menu-item" v-if="!name" >Sign-Up</a>
+				<a href="#" @click="logout" class="menu-item" v-if="name">Logout</a>
 			</nav>
 		</aside>
 
@@ -31,7 +31,7 @@
 				<h1 style="text-holder:center;">New feeds</h1>
 				<div class="w3-first w3-container w3-margin-bottom" :key="item.id" v-for="(item, index) in news.slice().reverse()" style="padding-top:5px;border: solid lightgray;">
 					<div class="header-post" style="background-color:lightgray;">
-
+						<img src="{{picture}}" class="rounded-circle" style="max-height:15px;max-width:15px;"/>
 						<span style="padding-left:7px">{{item.name}} </span>
 						<span style="float:right;">{{new Date(item.id).toLocaleTimeString('it-IT')}} {{new Date(item.id).toLocaleDateString()}} </span>
 					</div>
@@ -97,6 +97,7 @@ import axios from 'axios'
 		this.picture=JSON.parse(user).picture
 		let result = await axios.get(`http://localhost:3000/news`)
 		this.news=result.data
+		console.warn(this.picture)
     },
     data(){
       return{
