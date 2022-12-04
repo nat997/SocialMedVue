@@ -14,24 +14,29 @@
 			<nav class="menu">
 				<a href="/" class="menu-item is-active">Home</a>
 				<a href="/Login" class="menu-item" v-if="!name">Login</a>
-			  <a href="/Sign-Up" class="menu-item" v-if="!name" >Sign-Up</a>
+			 	<a href="/Sign-Up" class="menu-item" v-if="!name" >Sign-Up</a>
 				<a href="#" @click="logout" class="menu-item" v-if="name">Logout</a>
 			</nav>
 		</aside>
 
-		<main class="content">
 
-			<h1 >Bienvenue,{{name}}</h1>
-			<p>Dit moi qu'est ce que vous pensez ?</p>
-			<textarea type="text" class="form-control form-control-lg" v-model="status" style="height:200px;max-width: auto ; " placeholder="Nouveau post" ></textarea>
-			<div class="button-submit" style="padding-top:15px">
-				<button class="btn btn-dark btn-lg btn-block" @click="sendNews" style="height:70px;width:160px;">Envoyer</button>
+		<main class="content" >
+			<div class="notLogged"  v-if="!name">
+				<h1 style="display:flex;">Veuillez se connecter pour accéder à la page </h1>
 			</div>
-			<div class="newsFeeds" style="padding-top:15px;" >
+			<div class="new-post" v-if="name">
+				<h1 v-if="name">Bienvenue,{{name}}</h1>
+				<p>Dit moi qu'est ce que vous pensez ?</p>
+				<textarea type="text" class="form-control form-control-lg" v-model="status" style="height:200px;max-width: auto ; " placeholder="Nouveau post" ></textarea>
+				<div class="button-submit" style="padding-top:15px">
+					<button class="btn btn-dark btn-lg btn-block" @click="sendNews" style="height:70px;width:160px;">Envoyer</button>
+				</div>
+			</div>
+			<div class="newsFeeds" style="padding-top:15px;" v-if="name" >
 				<h1 style="text-holder:center;">New feeds</h1>
 				<div class="w3-first w3-container w3-margin-bottom" :key="item.id" v-for="(item, index) in news.slice().reverse()" style="padding-top:5px;border: solid lightgray;">
-					<div class="header-post" style="background-color:lightgray;">
-						<img src="{{picture}}" class="rounded-circle" style="max-height:15px;max-width:15px;"/>
+					<div class="header-post" style="background-color:lightgray;padding-left:5px">
+						<img src="https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png" class="rounded-circle" style="max-height:25px;max-width:25px;"/>
 						<span style="padding-left:7px">{{item.name}} </span>
 						<span style="float:right;">{{new Date(item.id).toLocaleTimeString('it-IT')}} {{new Date(item.id).toLocaleDateString()}} </span>
 					</div>
@@ -41,6 +46,8 @@
 					<div class="comment">
 						<textarea type="text" class="form-control form-control-lg" v-model="comment" style="height:100px;max-width: auto ; " placeholder="Commentaire" ></textarea>
 						<button class="btn btn-light btn-lg btn-block" @click="sendComment" style="height:70px;width:160px;">Envoyer</button>
+						<button class="btn btn-light btn-lg btn-block" @click="likeToggle" style="height:70px;width:160px;">Like</button>
+				
 					</div>
 				</div>
 			</div>
@@ -51,10 +58,21 @@
 
 <script>
 import axios from 'axios'
+const LikeNum = 1
 //import NewFeeds from './NewFeeds.vue'
   export default {
     name:'sidebar',
     methods:{
+	  likeToggle(){
+		if(!this.isActive){
+			this.isActive=true
+			
+		}
+		else{
+			this.isActive=false
+		}
+		console.log(this.isActive)
+	  },
       logout()
       {
         localStorage.clear();
@@ -68,6 +86,12 @@ import axios from 'axios'
               status : this.status,
               id:Date.now(),
 			  picture:this.picture,
+			  like:'',
+			  comment:{
+				id:"",
+				comment:"",
+				name:"",
+			  }
           });
 		if(news.status==201)
 			{
@@ -76,6 +100,7 @@ import axios from 'axios'
 			}
 		this.$router.go()
       },
+	  
 	  async sendComment(){
 		var news1 = await axios.post("http://localhost:3000/news",
 		{
@@ -97,12 +122,12 @@ import axios from 'axios'
 		this.picture=JSON.parse(user).picture
 		let result = await axios.get(`http://localhost:3000/news`)
 		this.news=result.data
-		console.warn(this.picture)
     },
     data(){
       return{
         name:'',
-		news:[],
+		news:[
+		],
       }
     },
     

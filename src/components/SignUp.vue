@@ -10,7 +10,7 @@
                 <label>Mots de passe</label>
                 <input type="password" class="form-control form-control-lg" v-model="password" />
                 <label>Photo profile (URL)</label>
-                <input type="url" class="form-control form-control-lg" v-model="picture"/>
+                <input type="text" class="form-control form-control-lg" v-model="picture"/>
                 <label></label>
                 <button class="btn btn-dark btn-lg btn-block" @click="signUp" style="height:70px;width:160px;">Envoyer</button>
                 <button class="btn btn-dark btn-lg btn-block" @click="$router.push('/login')" style="height:70px;width:160px">Connecter</button>
