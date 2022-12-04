@@ -46,8 +46,7 @@
 					<div class="comment">
 						<textarea type="text" class="form-control form-control-lg" v-model="comment" style="height:100px;max-width: auto ; " placeholder="Commentaire" ></textarea>
 						<button class="btn btn-light btn-lg btn-block" @click="sendComment" style="height:70px;width:160px;">Envoyer</button>
-						<button class="btn btn-light btn-lg btn-block" @click="likeToggle" style="height:70px;width:160px;">Like</button>
-				
+						<button class="btn btn-light btn-lg btn-block" :key="item.id" v-on:click="likeToggle" :v-text="likeCount" style="height:70px;width:160px;">Like:{{likeCount}}</button>
 					</div>
 				</div>
 			</div>
@@ -58,20 +57,14 @@
 
 <script>
 import axios from 'axios'
-const LikeNum = 1
-//import NewFeeds from './NewFeeds.vue'
   export default {
     name:'sidebar',
     methods:{
 	  likeToggle(){
-		if(!this.isActive){
-			this.isActive=true
-			
+		if(!this.liked){
+			this.likeCount +=1;
+			this.liked = true;
 		}
-		else{
-			this.isActive=false
-		}
-		console.log(this.isActive)
 	  },
       logout()
       {
@@ -86,12 +79,13 @@ const LikeNum = 1
               status : this.status,
               id:Date.now(),
 			  picture:this.picture,
-			  like:'',
-			  comment:{
-				id:"",
-				comment:"",
+			  likeCount:this.likeCount,
+			  comment:[
+			  {
 				name:"",
-			  }
+				comment:"",
+				id:"",
+			  }]
           });
 		if(news.status==201)
 			{
@@ -102,18 +96,23 @@ const LikeNum = 1
       },
 	  
 	  async sendComment(){
-		var news1 = await axios.post("http://localhost:3000/news",
+		var comment = await axios.post("http://localhost:3000/news",
 		{
-              name:this.name,
-			  status : this.status,
-			  picture:this.picture,
-              id:Date.now(),
-			  comment:{
-				"name": "asaa",
-				"status": "asdwdd",
-				"id": Date.now()
-			}
-        });
+			  comment:[
+			  {
+				name:this.name,
+				comment:this.comment,
+				id:Date.now(),
+			  }]
+          });
+		if(comment.status==201)
+		{
+			alert("Posted" );
+			localStorage.setItem("user-news",JSON.stringify(comment.data))
+		}
+		console.warn(comment)
+		this.$router.go()
+		console.warn(comment)
 	  }
     },
     async mounted(){
@@ -128,6 +127,7 @@ const LikeNum = 1
         name:'',
 		news:[
 		],
+		likeCount:'',
       }
     },
     
