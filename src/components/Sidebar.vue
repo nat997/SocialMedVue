@@ -36,17 +36,17 @@
 				<h1 style="text-holder:center;">New feeds</h1>
 				<div class="w3-first w3-container w3-margin-bottom" :key="item.id" v-for="(item, index) in news.slice().reverse()" style="padding-top:5px;border: solid lightgray;">
 					<div class="header-post" style="background-color:lightgray;padding-left:5px">
-						<img src="https://assets.stickpng.com/images/585e4bf3cb11b227491c339a.png" class="rounded-circle" style="max-height:25px;max-width:25px;"/>
+						<img src="../assets/logo.png" class="rounded-circle" style="max-height:25px;max-width:25px;"/>
 						<span style="padding-left:7px">{{item.name}} </span>
 						<span style="float:right;">{{new Date(item.id).toLocaleTimeString('it-IT')}} {{new Date(item.id).toLocaleDateString()}} </span>
 					</div>
 					<div class="border" style="background-color:white; ">
 						Message : {{item.status}}
 					</div> 
-					<div class="comment">
+					<div class="comment" :key="item.id" >
 						<textarea type="text" class="form-control form-control-lg" v-model="comment" style="height:100px;max-width: auto ; " placeholder="Commentaire" ></textarea>
-						<button class="btn btn-light btn-lg btn-block" @click="sendComment" style="height:70px;width:160px;">Envoyer</button>
-						<button class="btn btn-light btn-lg btn-block" :key="item.id" v-on:click="likeToggle" :v-text="likeCount" style="height:70px;width:160px;">Like:{{likeCount}}</button>
+						<button class="btn btn-light btn-lg btn-block" @click="sendComment(item)" style="height:70px;width:160px;">Envoyer</button>
+						<button class="btn btn-light btn-lg btn-block" :key="item.id" :id="item.id" v-on:click="likeToggle(item.id)" style="height:70px;width:160px;">{{item.id}}</button>
 					</div>
 				</div>
 			</div>
@@ -58,13 +58,10 @@
 <script>
 import axios from 'axios'
   export default {
-    name:'sidebar',
+    name:'Sidebar',
     methods:{
-	  likeToggle(){
-		if(!this.liked){
-			this.likeCount +=1;
-			this.liked = true;
-		}
+	  likeToggle(id){
+		console.warn(id)
 	  },
       logout()
       {
@@ -79,7 +76,7 @@ import axios from 'axios'
               status : this.status,
               id:Date.now(),
 			  picture:this.picture,
-			  likeCount:this.likeCount,
+			  likeCount:"",
 			  comment:[
 			  {
 				name:"",
@@ -95,16 +92,13 @@ import axios from 'axios'
 		this.$router.go()
       },
 	  
-	  async sendComment(){
-		var comment = await axios.post("http://localhost:3000/news",
+	  async sendComment(item){
+		var comment = await axios.post(`http://localhost:3000/news?id=${this.name}`,
 		{
-			  comment:[
-			  {
-				name:this.name,
-				comment:this.comment,
-				id:Date.now(),
-			  }]
-          });
+			name:this.name,
+			comment:this.comment,
+			id:Date.now(),
+        });
 		if(comment.status==201)
 		{
 			alert("Posted" );
@@ -125,9 +119,9 @@ import axios from 'axios'
     data(){
       return{
         name:'',
+		likeCount:0,
 		news:[
 		],
-		likeCount:'',
       }
     },
     
