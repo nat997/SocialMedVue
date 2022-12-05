@@ -27,18 +27,14 @@
       "name": "Someone",
       "status": "bla bla bla ",
       "id": 1670123874113,
-      "likeCount": 0,
       "picture": "https://observer.com/wp-content/uploads/sites/2/2020/09/mv5bowjmzda5yzytyzhkns00odbjlwjjymityzmwodjhmdlhyze2xkeyxkfqcgdeqxvymtq2ode0nda._v1_sx1777_cr001777785_al_.jpg?quality=80",
+      "likeCount": 32,
       "comment": [
         {
-          "name": "Someone else",
-          "status": "bla bla bla ",
-          "id": 167012387444
-        },
-        {
-          "name": "Another guy",
-          "status": "bla bla bla bla blep ",
-          "id": 167036287444
+          "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
+          "name": "Homelander",
+          "comment": "BRUH",
+          "id": 1670266434940
         }
       ]
     },
@@ -47,12 +43,13 @@
       "status": "Another post ",
       "id": 1670180082291,
       "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
-      "likeCount": 0,
+      "likeCount": 11,
       "comment": [
         {
-          "name": "",
-          "comment": "",
-          "id": ""
+          "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
+          "name": "Homelander",
+          "comment": "HIHI",
+          "id": 1670266430086
         }
       ]
     },
@@ -61,19 +58,74 @@
       "status": "Someweafoefefdv",
       "id": 1670185061531,
       "picture": "https://observer.com/wp-content/uploads/sites/2/2020/09/mv5bowjmzda5yzytyzhkns00odbjlwjjymityzmwodjhmdlhyze2xkeyxkfqcgdeqxvymtq2ode0nda._v1_sx1777_cr001777785_al_.jpg?quality=80",
-      "likeCount": "",
+      "likeCount": 4,
       "comment": [
         {
-          "name": "",
-          "comment": "",
-          "id": ""
+          "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
+          "name": "Homelander",
+          "comment": "HUHU",
+          "id": 1670266424694
         }
       ]
     },
     {
-      "name": "TEST",
-      "comment": "ASDE",
-      "id": 1670188871960
+      "name": "nat",
+      "status": "Haha",
+      "id": 1670254469813,
+      "picture": "https://images.cinemaexpress.com/uploads/user/imagelibrary/2020/10/13/original/homelander.jpg?w=400&dpr=2.6",
+      "likeCount": 7,
+      "comment": [
+        {
+          "name": "Homelander",
+          "comment": "AAA",
+          "id": 1670265631076
+        }
+      ]
+    },
+    {
+      "name": "nat",
+      "status": "Bruh",
+      "id": 1670254570097,
+      "picture": "https://images.cinemaexpress.com/uploads/user/imagelibrary/2020/10/13/original/homelander.jpg?w=400&dpr=2.6",
+      "likeCount": 0,
+      "comment": [
+        {
+          "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
+          "name": "Homelander",
+          "comment": "HEHE",
+          "id": 1670266418706
+        }
+      ]
+    },
+    {
+      "name": "nat",
+      "status": "Hehe",
+      "id": 1670261989725,
+      "picture": "https://images.cinemaexpress.com/uploads/user/imagelibrary/2020/10/13/original/homelander.jpg?w=400&dpr=2.6",
+      "likeCount": 1,
+      "comment": [
+        {
+          "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
+          "name": "Homelander",
+          "comment": "asdasd",
+          "id": 1670266367132
+        }
+      ]
+    },
+    {
+      "name": "Homelander",
+      "status": "ASD",
+      "id": 1670265600542,
+      "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
+      "likeCount": 0,
+      "comment": [
+        {
+          "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ItjUjmdyS3oifHWUhSGsSpNphIZ38hZ3Obdz2FjU&s",
+          "name": "Homelander",
+          "comment": "asd",
+          "id": 1670266282336
+        }
+      ]
     }
   ]
 }

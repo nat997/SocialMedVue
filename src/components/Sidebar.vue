@@ -35,18 +35,33 @@
 			<div class="newsFeeds" style="padding-top:15px;" v-if="name" >
 				<h1 style="text-holder:center;">New feeds</h1>
 				<div class="w3-first w3-container w3-margin-bottom" :key="item.id" v-for="(item, index) in news.slice().reverse()" style="padding-top:5px;border: solid lightgray;">
-					<div class="header-post" style="background-color:lightgray;padding-left:5px">
-						<img src="../assets/logo.png" class="rounded-circle" style="max-height:25px;max-width:25px;"/>
-						<span style="padding-left:7px">{{item.name}} </span>
-						<span style="float:right;">{{new Date(item.id).toLocaleTimeString('it-IT')}} {{new Date(item.id).toLocaleDateString()}} </span>
+					<div class="border" style="background-color:black;border-color:black;padding:1px;">
+						<div class="header-post" style="background-color:lightgray;padding-left:5px">
+							<img v-bind:src="item.picture" style="max-width:50px;max-height:80px;" class="rounded-circle"/>
+							<span style="padding-left:7px">{{item.name}} </span>
+							<span style="float:right;">{{new Date(item.id).toLocaleTimeString('it-IT')}} {{new Date(item.id).toLocaleDateString()}} </span>
+						</div>
+						<div class="border" style="background-color:pink; ">
+							Post : {{item.status}}
+						</div> 
 					</div>
-					<div class="border" style="background-color:white; ">
-						Message : {{item.status}}
-					</div> 
-					<div class="comment" :key="item.id" >
+					<div v-for="(stuff,index) in (item.comment).slice().reverse()">
+						<div class="border" style="background-color:black;border-color:black;padding:1px;">
+							<div class="header-post" style="background-color:lightgray;padding-left:5px">
+								<img v-bind:src="item.comment[index].picture" style="max-width:50px;max-height:80px;" class="rounded-circle"/>
+								<span style="padding-left:7px">{{item.comment[index].name}} </span>
+								<span style="float:right;">{{new Date(item.comment[index].id).toLocaleTimeString('it-IT')}} {{new Date(item.comment[index].id).toLocaleDateString()}} </span>
+							</div>
+							<div class="border" style="background-color:pink; ">
+								Comment : {{item.comment[index].comment}}
+							</div> 
+						</div> 
+					</div>
+					<div class="comment" >
 						<textarea type="text" class="form-control form-control-lg" v-model="comment" style="height:100px;max-width: auto ; " placeholder="Commentaire" ></textarea>
 						<button class="btn btn-light btn-lg btn-block" @click="sendComment(item)" style="height:70px;width:160px;">Envoyer</button>
-						<button class="btn btn-light btn-lg btn-block" :key="item.id" :id="item.id" v-on:click="likeToggle(item.id)" style="height:70px;width:160px;">{{item.id}}</button>
+						<button class="btn btn-light btn-lg btn-block" :key="item.id" :id="index" v-on:click="like(item)" style="height:70px;width:160px;">Like : {{item.likeCount}}</button>
+						<button class="test fetch" @click="fetchComment(item)">Test comment</button>
 					</div>
 				</div>
 			</div>
@@ -60,8 +75,22 @@ import axios from 'axios'
   export default {
     name:'Sidebar',
     methods:{
-	  likeToggle(id){
-		console.warn(id)
+	  async fetchComment(item){
+		const response = await fetch(`http://localhost:3000/news/${item.id}`)
+		const json = await response.json()
+		for(var i = 0 ; i < json.comment.length ; i++)
+		console.warn(json.comment[0])
+	  },
+	  async like(item){
+		await axios.put(`http://localhost:3000/news/${item.id}`,{
+			name:item.name,
+			status:item.status,
+			id:item.id,
+			picture:item.picture,
+			likeCount:item.likeCount++,
+			comment:item.comment
+		});
+		console.warn(item.likeCount)
 	  },
       logout()
       {
@@ -76,9 +105,10 @@ import axios from 'axios'
               status : this.status,
               id:Date.now(),
 			  picture:this.picture,
-			  likeCount:"",
+			  likeCount:0,
 			  comment:[
 			  {
+				picture:"",
 				name:"",
 				comment:"",
 				id:"",
@@ -93,28 +123,34 @@ import axios from 'axios'
       },
 	  
 	  async sendComment(item){
-		var comment = await axios.post(`http://localhost:3000/news?id=${this.name}`,
+		var comment = await axios.put(`http://localhost:3000/news/${item.id}`,
 		{
-			name:this.name,
-			comment:this.comment,
-			id:Date.now(),
+			  name:item.name,
+              status : item.status,
+              id:item.id,
+			  picture:item.picture,
+			  likeCount:item.likeCount,
+			  comment:[{
+				picture:this.picture,
+				name:this.name,
+				comment:this.comment,
+				id:Date.now()}]
         });
 		if(comment.status==201)
 		{
 			alert("Posted" );
 			localStorage.setItem("user-news",JSON.stringify(comment.data))
 		}
-		console.warn(comment)
 		this.$router.go()
-		console.warn(comment)
+		console.warn(item.comment)
 	  }
     },
     async mounted(){
 		let user = localStorage.getItem('user-info')
 		this.name=JSON.parse(user).name
-		this.picture=JSON.parse(user).picture
 		let result = await axios.get(`http://localhost:3000/news`)
 		this.news=result.data
+		this.picture=JSON.parse(user).picture
     },
     data(){
       return{
